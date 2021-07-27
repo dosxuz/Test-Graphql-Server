@@ -14,19 +14,19 @@ const app = express()
 
 const authors = [
 	{ id: 1, name: 'JK Rowling' },
-	{ id: 2, name: 'JRR Tokein' },
+	{ id: 2, name: 'J.R.R Tokein' },
 	{ id: 3, name: 'Brent Weeks' }
 ]
 
 const books = [
-	{ id: 1, name: 'Harry Potter', authorid: 1 },
-	{ id: 2, name: 'Some other shit', authorid: 1 },
-	{ id: 3, name: 'Baaler chal', authorid: 1 },
-	{ id: 4, name: 'Boi er naam', authorid: 2 },
-	{ id: 5, name: 'Chudir bhai', authorid: 2 },
-	{ id: 6, name: 'chondro gupto', authorid: 2 },
-	{ id: 7, name: 'Pod mere', authorid: 3 },
-	{ id: 8, name: 'Gondo shukto', authorid: 3 }
+	{ id: 1, name: 'Harry Potter and the Philosopher’s Stone', authorid: 1 },
+	{ id: 2, name: 'Harry Potter and the Chamber of Secrets', authorid: 1 },
+	{ id: 3, name: 'Harry Potter and the Prisoner of Azkaban', authorid: 1 },
+	{ id: 4, name: 'A Middle English Vocabular', authorid: 2 },
+	{ id: 5, name: 'Sir Gawain & The Green Knight', authorid: 2 },
+	{ id: 6, name: 'The Hobbit: or There and Back Again', authorid: 2 },
+	{ id: 7, name: 'The Burning White', authorid: 3 },
+	{ id: 8, name: 'Way of Shadows', authorid: 3 }
 ]
 
 const BookType = new GraphQLObjectType({
