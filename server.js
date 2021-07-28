@@ -19,15 +19,37 @@ const authors = [
 ]
 
 const books = [
-	{ id: 1, name: 'Harry Potter and the Philosopher’s Stone', authorid: 1 },
-	{ id: 2, name: 'Harry Potter and the Chamber of Secrets', authorid: 1 },
-	{ id: 3, name: 'Harry Potter and the Prisoner of Azkaban', authorid: 1 },
-	{ id: 4, name: 'A Middle English Vocabular', authorid: 2 },
-	{ id: 5, name: 'Sir Gawain & The Green Knight', authorid: 2 },
-	{ id: 6, name: 'The Hobbit: or There and Back Again', authorid: 2 },
-	{ id: 7, name: 'The Burning White', authorid: 3 },
-	{ id: 8, name: 'Way of Shadows', authorid: 3 }
+	{ id: 1, name: 'Harry Potter and the Philosopher’s Stone', authorid: 1, publisherid: 1 },
+	{ id: 2, name: 'Harry Potter and the Chamber of Secrets', authorid: 1, publisherid: 3 },
+	{ id: 3, name: 'Harry Potter and the Prisoner of Azkaban', authorid: 1, publisherid: 2 },
+	{ id: 4, name: 'A Middle English Vocabular', authorid: 2, publisherid: 4 },
+	{ id: 5, name: 'Sir Gawain & The Green Knight', authorid: 2, publisherid: 1 },
+	{ id: 6, name: 'The Hobbit: or There and Back Again', authorid: 2, publisherid: 3 },
+	{ id: 7, name: 'The Burning White', authorid: 3, publisherid: 2 },
+	{ id: 8, name: 'Way of Shadows', authorid: 3, publisherid: 1 }
 ]
+
+const publishers = [
+	{ id: 1, name: 'Penguin' },
+	{ id: 2, name: 'Pearson' },
+	{ id: 3, name: 'Thomson Reuters' },
+	{ id: 4, name: 'Harper Collins' }
+]
+
+const PublisherType = new GraphQLObjectType({
+	name: 'Publisher',
+	description: 'This represents a publisher of a book',
+	fields: () => ({
+		id: { type: GraphQLNonNull(GraphQLInt) },
+		name: { type: GraphQLNonNull(GraphQLString) },
+		book: {
+			type: BookType,
+			resolve: (publisher) => {
+				return books.find(book => book.publisherid == publisher.id)
+			}
+		}
+	})
+})
 
 const BookType = new GraphQLObjectType({
 	name: 'Book',
@@ -36,10 +58,17 @@ const BookType = new GraphQLObjectType({
 		id: { type: GraphQLNonNull(GraphQLInt) },
 		name: { type: GraphQLNonNull(GraphQLString) },
 		authorId: { type: GraphQLNonNull(GraphQLInt) },
+		publisherid: { type: GraphQLNonNull(GraphQLInt)},
 		author: {
 			type: AuthorType,
 			resolve: (book) => {
 				return authors.find(author => author.id == book.authorid)
+			}
+		},
+		publisher: {
+			type: PublisherType,
+			resolve: (book) => {
+				return publishers.find(publisher => publisher.id == book.publisherid)
 			}
 		}
 	})
@@ -91,6 +120,11 @@ const RootQueryType = new GraphQLObjectType ({
 				id: { type: GraphQLInt }
 			},
 			resolve: (parent, args) => authors.find(author => author.id === args.id)
+		},
+		publishers: {
+			type: GraphQLList(PublisherType),
+			description: 'List of all Publishers',
+			resolve: () => publishers
 		}
 	})
 })
